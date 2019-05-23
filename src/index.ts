@@ -76,7 +76,7 @@ async function main() {
                 return getRpcUrl(answers.network);
             },
             validate: (rpcUrl: string) => {
-                return /https?:\/\/.+/.test(rpcUrl) ? true : 'Please enter a valid URL'
+                return /https?:\/\/.+/.test(rpcUrl) ? true : 'Please enter a valid URL';
             },
         },
         {
@@ -123,9 +123,9 @@ async function main() {
             message: 'Enter the port for the server:',
             default: 3001,
             validate: (port: number) => {
-                return (1 <= port && port <= 65535) ? true : 'Enter a port between 1 and 65535'
+                return 1 <= port && port <= 65535 ? true : 'Enter a port between 1 and 65535';
             },
-        }
+        },
     ]);
 
     const networkId = getNetworkId(answers.network);
