@@ -84,6 +84,18 @@ async function main() {
             },
             when: (answers: any) => answers.chargeFees
         },
+        {
+            type: 'list',
+            name: 'theme',
+            message: 'Select the theme you want to use',
+            choices: [{
+                name: 'Light',
+                value: 'light',
+            }, {
+                name: 'Dark',
+                value: 'dark',
+            }],
+        },
     ]);
 
     const networkId = getNetworkId(answers.network)
@@ -93,6 +105,7 @@ async function main() {
         networkId,
         rpcUrl: answers.rpcUrl,
         feeRecipient: answers.feeRecipient,
+        theme: answers.theme,
     }
 
     const dockerComposeYml = buildDockerComposeYml(options);

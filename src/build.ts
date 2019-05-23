@@ -3,10 +3,12 @@ export interface BuildOptions {
     networkId: number;
     rpcUrl: string;
     feeRecipient: string;
+    theme: 'light' | 'dark';
 }
 
 export const buildDockerComposeYml = (options: BuildOptions) => {
     const basePath = options.tokenType === 'ERC20' ? '/erc20' : '/erc721';
+    const theme = options.theme === 'light' ? 'LIGHT_THEME' : 'DARK_THEME';
 
     return `
 version: "3"
@@ -19,6 +21,7 @@ services:
     image: fvictorio/0x-launch-kit-frontend
     environment:
       REACT_APP_DEFAULT_BASE_PATH: '${basePath}'
+      REACT_APP_THEME_NAME: '${theme}'
       REACT_APP_RELAYER_URL: 'http://localhost:3000/v2'
     command: yarn build
     volumes:
