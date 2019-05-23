@@ -7,6 +7,8 @@ import { buildDockerComposeYml, BuildOptions } from './build';
 
 type Network = 'mainnet' | 'kovan' | 'ropsten' | 'custom';
 
+const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
+
 function getNetworkId(network: Network): number {
     switch (network) {
         case 'mainnet':
@@ -34,19 +36,24 @@ function getRpcUrl(network: Network): string {
 }
 
 async function main() {
-    const networkChoices: Array<{name: string, value: Network}> = [{
-        name: 'Mainnet',
-        value: 'mainnet',
-    }, {
-        name: 'Kovan',
-        value: 'kovan',
-    }, {
-        name: 'Ropsten',
-        value: 'ropsten',
-    }, {
-        name: 'Local / Custom',
-        value: 'custom',
-    }];
+    const networkChoices: Array<{ name: string; value: Network }> = [
+        {
+            name: 'Mainnet',
+            value: 'mainnet',
+        },
+        {
+            name: 'Kovan',
+            value: 'kovan',
+        },
+        {
+            name: 'Ropsten',
+            value: 'ropsten',
+        },
+        {
+            name: 'Local / Custom',
+            value: 'custom',
+        },
+    ];
 
     const answers = await inquirer.prompt<any>([
         {
@@ -66,8 +73,8 @@ async function main() {
             name: 'rpcUrl',
             message: 'Select the RPC URL you want to use',
             default: (answers: any) => {
-                return getRpcUrl(answers.network)
-            }
+                return getRpcUrl(answers.network);
+            },
         },
         {
             type: 'confirm',
@@ -78,35 +85,38 @@ async function main() {
             type: 'input',
             name: 'feeRecipient',
             message: 'Enter the fee recipient:',
-            default: '0x0000000000000000000000000000000000000000',
+            default: ZERO_ADDRESS,
             validate: (answer: string) => {
-                return /(0x)?[0-9a-fA-F]{40}/.test(answer) ? true : 'Please enter a valid address'
+                return /(0x)?[0-9a-fA-F]{40}/.test(answer) ? true : 'Please enter a valid address';
             },
-            when: (answers: any) => answers.chargeFees
+            when: (answers: any) => answers.chargeFees,
         },
         {
             type: 'list',
             name: 'theme',
             message: 'Select the theme you want to use',
-            choices: [{
-                name: 'Light',
-                value: 'light',
-            }, {
-                name: 'Dark',
-                value: 'dark',
-            }],
+            choices: [
+                {
+                    name: 'Light',
+                    value: 'light',
+                },
+                {
+                    name: 'Dark',
+                    value: 'dark',
+                },
+            ],
         },
     ]);
 
-    const networkId = getNetworkId(answers.network)
+    const networkId = getNetworkId(answers.network);
 
     const options: BuildOptions = {
         tokenType: answers.tokenType,
         networkId,
         rpcUrl: answers.rpcUrl,
-        feeRecipient: answers.feeRecipient,
+        feeRecipient: answers.feeRecipient || ZERO_ADDRESS,
         theme: answers.theme,
-    }
+    };
 
     const dockerComposeYml = buildDockerComposeYml(options);
 
