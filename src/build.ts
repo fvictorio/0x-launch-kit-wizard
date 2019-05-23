@@ -5,6 +5,8 @@ export interface BuildOptions {
     feeRecipient: string;
     theme: 'light' | 'dark';
     port: number;
+    makerFee: number;
+    takerFee: number;
 }
 
 export const buildDockerComposeYml = (options: BuildOptions) => {
@@ -35,8 +37,8 @@ services:
         NETWORK_ID: '${options.networkId}'
         WHITELIST_ALL_TOKENS: 'true'
         FEE_RECIPIENT: '${options.feeRecipient}'
-        MAKER_FEE_ZRX_UNIT_AMOUNT: '0'
-        TAKER_FEE_ZRX_UNIT_AMOUNT: '0'
+        MAKER_FEE_ZRX_UNIT_AMOUNT: '${options.makerFee}'
+        TAKER_FEE_ZRX_UNIT_AMOUNT: '${options.takerFee}'
     ports:
       - '3000:3000'
   nginx:

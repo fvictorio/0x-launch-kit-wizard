@@ -80,11 +80,6 @@ async function main() {
             },
         },
         {
-            type: 'confirm',
-            name: 'chargeFees',
-            message: 'Do you want to charge fees?',
-        },
-        {
             type: 'input',
             name: 'feeRecipient',
             message: 'Enter the fee recipient:',
@@ -92,7 +87,20 @@ async function main() {
             validate: (answer: string) => {
                 return /(0x)?[0-9a-fA-F]{40}/.test(answer) ? true : 'Please enter a valid address';
             },
-            when: (answers: any) => answers.chargeFees,
+        },
+        {
+            type: 'number',
+            name: 'makerFee',
+            message: 'Enter the maker fee:',
+            default: 0,
+            when: (answers: any) => answers.feeRecipient !== ZERO_ADDRESS,
+        },
+        {
+            type: 'number',
+            name: 'takerFee',
+            message: 'Enter the taker fee:',
+            default: 0,
+            when: (answers: any) => answers.feeRecipient !== ZERO_ADDRESS,
         },
         {
             type: 'list',
@@ -129,6 +137,8 @@ async function main() {
         feeRecipient: answers.feeRecipient || ZERO_ADDRESS,
         theme: answers.theme,
         port: answers.port,
+        makerFee: answers.makerFee,
+        takerFee: answers.takerFee,
     };
 
     const dockerComposeYml = buildDockerComposeYml(options);
