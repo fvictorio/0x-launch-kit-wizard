@@ -2,6 +2,7 @@ export interface BuildOptions {
     tokenType: 'ERC20' | 'ERC721';
     networkId: number;
     rpcUrl: string;
+    feeRecipient: string;
 }
 
 export const buildDockerComposeYml = (options: BuildOptions) => {
@@ -29,7 +30,7 @@ services:
         RPC_URL: '${options.rpcUrl}'
         NETWORK_ID: '${options.networkId}'
         WHITELIST_ALL_TOKENS: 'true'
-        FEE_RECIPIENT: '0x0000000000000000000000000000000000000000'
+        FEE_RECIPIENT: '${options.feeRecipient}'
         MAKER_FEE_ZRX_UNIT_AMOUNT: '0'
         TAKER_FEE_ZRX_UNIT_AMOUNT: '0'
     ports:

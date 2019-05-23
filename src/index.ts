@@ -69,6 +69,21 @@ async function main() {
                 return getRpcUrl(answers.network)
             }
         },
+        {
+            type: 'confirm',
+            name: 'chargeFees',
+            message: 'Do you want to charge fees?',
+        },
+        {
+            type: 'input',
+            name: 'feeRecipient',
+            message: 'Enter the fee recipient:',
+            default: '0x0000000000000000000000000000000000000000',
+            validate: (answer: string) => {
+                return /(0x)?[0-9a-fA-F]{40}/.test(answer) ? true : 'Please enter a valid address'
+            },
+            when: (answers: any) => answers.chargeFees
+        },
     ]);
 
     const networkId = getNetworkId(answers.network)
@@ -77,6 +92,7 @@ async function main() {
         tokenType: answers.tokenType,
         networkId,
         rpcUrl: answers.rpcUrl,
+        feeRecipient: answers.feeRecipient,
     }
 
     const dockerComposeYml = buildDockerComposeYml(options);
