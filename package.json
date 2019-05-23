@@ -1,11 +1,13 @@
 {
     "name": "@fvictorio/0x-launch-kit-wizard",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "",
     "bin": {
         "create-launch-kit-app": "./lib/index.js"
     },
-    "files": ["lib/**/*"],
+    "files": [
+        "lib/**/*"
+    ],
     "scripts": {
         "build": "tsc",
         "prepublishOnly": "npm run build",
