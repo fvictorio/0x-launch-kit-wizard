@@ -1,5 +1,7 @@
 export interface BuildOptions {
     tokenType: 'ERC20' | 'ERC721';
+    networkId: number;
+    rpcUrl: string;
 }
 
 export const buildDockerComposeYml = (options: BuildOptions) => {
@@ -24,8 +26,8 @@ services:
     image: 0xorg/launch-kit-backend
     environment:
         HTTP_PORT: '3000'
-        RPC_URL: 'http://ganache:8545'
-        NETWORK_ID: '50'
+        RPC_URL: '${options.rpcUrl}'
+        NETWORK_ID: '${options.networkId}'
         WHITELIST_ALL_TOKENS: 'true'
         FEE_RECIPIENT: '0x0000000000000000000000000000000000000000'
         MAKER_FEE_ZRX_UNIT_AMOUNT: '0'
