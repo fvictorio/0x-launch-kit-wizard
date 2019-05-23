@@ -1,6 +1,6 @@
 {
     "name": "@fvictorio/0x-launch-kit-wizard",
-    "version": "0.0.6",
+    "version": "0.0.7",
     "description": "",
     "bin": {
         "create-launch-kit-app": "./lib/index.js"
