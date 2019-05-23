@@ -75,6 +75,9 @@ async function main() {
             default: (answers: any) => {
                 return getRpcUrl(answers.network);
             },
+            validate: (rpcUrl: string) => {
+                return /https?:\/\/.+/.test(rpcUrl) ? true : 'Please enter a valid URL'
+            },
         },
         {
             type: 'confirm',
