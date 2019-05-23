@@ -4,6 +4,7 @@ export interface BuildOptions {
     rpcUrl: string;
     feeRecipient: string;
     theme: 'light' | 'dark';
+    port: number;
 }
 
 export const buildDockerComposeYml = (options: BuildOptions) => {
@@ -41,7 +42,7 @@ services:
   nginx:
     image: nginx
     ports:
-        - '3001:80'
+        - '${options.port}:80'
     volumes:
         - frontend-assets:/usr/share/nginx/html
 volumes:

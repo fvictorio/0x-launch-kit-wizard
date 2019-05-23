@@ -106,6 +106,15 @@ async function main() {
                 },
             ],
         },
+        {
+            type: 'number',
+            name: 'port',
+            message: 'Enter the port for the server:',
+            default: 3001,
+            validate: (port: number) => {
+                return (1 <= port && port <= 65535) ? true : 'Enter a port between 1 and 65535'
+            },
+        }
     ]);
 
     const networkId = getNetworkId(answers.network);
@@ -116,6 +125,7 @@ async function main() {
         rpcUrl: answers.rpcUrl,
         feeRecipient: answers.feeRecipient || ZERO_ADDRESS,
         theme: answers.theme,
+        port: answers.port,
     };
 
     const dockerComposeYml = buildDockerComposeYml(options);
